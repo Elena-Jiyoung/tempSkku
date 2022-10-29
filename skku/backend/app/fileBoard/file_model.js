@@ -11,12 +11,11 @@ const getBookPageQry = "SELECT * FROM mydb.book LIMIT 10 OFFSET ?";
 
 //book 정보 받으면 table 에 추가
 const insertBookQry = 
-    "INSERT INTO mydb.book (title, filename, file, uploadDate, downloadNum" +
-    "VALUES ( ?, ?, ?, NOW(), 0)";
+    "INSERT INTO mydb.book  VALUES ( null, ?, ?, ?, NOW(), 0, 1)";
 
 //받은 id에 해당하는 row 수정
 const updateBookQry = 
-    "UPDATE mydb.book SET title = ?, filename = ?, file = ?, uploadDate = NOW()" +
+    "UPDATE mydb.book SET title = ?, filename = ?, file = ?, uploadDate = NOW() " +
     "WHERE id = ?";
 
 //받은 id에 해당하는 row 삭제
@@ -51,8 +50,6 @@ fileBoard.getBookPage = function getBookPage(pageNum, callback){
         start = ((pageNum-1) *10)
     }
     config.db.query(getBookPageQry, start, (err, result) => {
-        // console.log(pageNum);
-        // console.log(result);
         if (err) callback(err,null);
         callback(null, result);
     });
@@ -63,7 +60,7 @@ fileBoard.insertBook = function insertBook(title, filename, file, callback) {
     config.db.query(insertBookQry, info, (err, result) => {
         if (err) callback(err, null);
 
-        callback(null, err);
+        callback(null, result);
     });
 }
 
@@ -72,7 +69,7 @@ fileBoard.updateBook = function updateBook(id, title, filename, file, callback){
     config.db.query(updateBookQry, info, (err, result) => {
         if (err) callback(err, null);
 
-        callback(null, err);
+        callback(null, result);
     });
     
 }

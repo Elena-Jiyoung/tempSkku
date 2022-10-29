@@ -51,15 +51,16 @@ function createBook(req, res) {
 }
 
 function updateBook(req, res) {
-    const bookId = req.body.id;
+    const id = req.body.id;
     const title = req.body.title;
     const filename = req.body.filename;
     const file = req.body.file;
-    fileBoard.updateBook( bookId, title, filename, file, (err, result) => {
+    fileBoard.updateBook( id, title, filename, file, (err, result) => {
         if(err){
             console.log(err);
             res.json({ errMsg: "Error: Failed on updating book" });
         }
+        console.log("success");
     });
 }
 
@@ -70,14 +71,15 @@ function deleteBook(req, res) {
             console.log(err);
             res.json({ errMsg: "Error: Failed on deleting book" });
         }
+        console.log("success");
     });
 }
 
 //다운로드는 db에 파일을 저장하는 형식이 아니라 주소를 저장하는 형식을 사용했습니다
 //skku\backend 경로 안에 저장된 파일을 다운로드 합니다. 
 function getBookFile(req, res) {
-    const bookId = req.body.id;
-    fileBoard.getBookFile( bookId , (err, result) => {
+    const id = req.body.id;
+    fileBoard.getBookFile( id , (err, result) => {
         if(err) {
             console.log(err)
             res.json({ errMsg: "Error: Failed on downloading book" });
