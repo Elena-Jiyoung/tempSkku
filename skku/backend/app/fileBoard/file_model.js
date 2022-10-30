@@ -26,7 +26,7 @@ const getBookFileQry = "SELECT file FROM mydb.book WHERE id=?";
 
 
 fileBoard.getPageNum = function getPageNum(callback){
-    config.db.query(getPageQry, (err,result) => {
+    config.db.query(getBookPageQry, (err,result) => {
         if(err) callback(err,null);
 
         callback(null, result);

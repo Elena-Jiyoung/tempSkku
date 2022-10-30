@@ -111,7 +111,7 @@ function Journal() {
     }, []);
 
     console.log(journalItems);
-
+    /*
     const downloadFileData = () => {
       fetch('http://localhost:3001/research/journal_id')
          .then(response => {
@@ -125,7 +125,7 @@ function Journal() {
             //window.location.href = response.url;
       });
    }
-    
+    */
 
     return(
       <div className="journalList">

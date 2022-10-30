@@ -13,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use(require("./app/fileBoard/router"));
+app.use(require("./app/detailBoard/router"));
+app.use(require("./app/Homepage/router"));
 
 const db = mysql.createConnection({
     user: "root",
@@ -27,8 +29,8 @@ app.get("/", (req, res)=>{
   const sqlQuery2 = "SELECT * FROM ( SELECT * FROM mydb.project ORDER BY uploadDate DESC LIMIT 2 OFFSET 0) as project_desc GROUP BY title;"
   const res1 = {}
 
-  db.select(sqlQuery1, function(err, data1) {
-    db.select(sqlQuery2, function(err, data2) {
+  db.query(sqlQuery1, function(err, data1) {
+    db.query(sqlQuery2, function(err, data2) {
       res1.announcement = data1
       res1.project = data2
       res.end(JSON.stringify(res1))
@@ -197,6 +199,7 @@ app.post("/report/create", (req, res) => {
 });
 //게시판2 READ
 //  첫번째 페이지
+/*
 app.get("/report", (req, res) => {
   const sqlQuery1 = "SELECT COUNT(*) FROM mydb.report"
   const sqlQuery2 = 
@@ -210,6 +213,7 @@ app.get("/report", (req, res) => {
     })
   });
 });
+*/
 //  요청된 페이지번호에 맞는 게시글들 10개
 app.get("/report_with_pagenum", (req, res) => {
   var num = parseInt(req.body.pageNum);
@@ -254,8 +258,7 @@ app.delete("/report/delete/:id", (req, res) => {
     }
   });
 });
-app.listen(3001, ()=>{
-    console.log(`running on port 3001`);
+app.listen(3001, function(err){
+  if (err) console.log("Error in server setup")
+  console.log("Server listening on Port", 3001);
 });
-
-
