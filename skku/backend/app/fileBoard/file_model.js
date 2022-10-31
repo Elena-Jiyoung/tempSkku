@@ -11,7 +11,7 @@ const getBookPageQry = "SELECT * FROM mydb.book LIMIT 10 OFFSET ?";
 
 //book 정보 받으면 table 에 추가
 const insertBookQry = 
-    "INSERT INTO mydb.book  VALUES ( null, ?, ?, ?, NOW(), 0, 1)";
+    "INSERT INTO mydb.book VALUES ( null, ?, ?, ?, NOW(), 0, 1)";
 
 //받은 id에 해당하는 row 수정
 const updateBookQry = 
@@ -26,7 +26,7 @@ const getBookFileQry = "SELECT file FROM mydb.book WHERE id=?";
 
 
 fileBoard.getPageNum = function getPageNum(callback){
-    config.db.query(getBookPageQry, (err,result) => {
+    config.db.query(getPageQry, (err,result) => {
         if(err) callback(err,null);
 
         callback(null, result);

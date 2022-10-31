@@ -47,6 +47,7 @@ function createBook(req, res) {
             console.log(err);
             res.json({ errMsg: "Error: Failed on creating book" });
         }
+        console.log("New Data Inserted")
     });
 }
 
