@@ -14,18 +14,13 @@ app.use(cors());
 // app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 
-app.use(fileUpload({
-  useTempFiles : true,
-  createParentPath: true
- }));
-
 app.use(require("./app/fileBoard/router"));
 app.use(require("./app/detailBoard/router"));
 app.use(require("./app/Homepage/router"));
-/*
+
 app.use(require("./app/fileUpload/router"));
-app.use(require("./app/fileDownload/router"));
-*/
+//app.use(require("./app/fileDownload/router"));
+
 
 const db = mysql.createConnection({
     user: "root",

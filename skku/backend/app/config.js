@@ -5,7 +5,7 @@ var config = module.exports;
 
 config.db = mysql.createPool({
     user: "admin",
-    host: "skkuboardserver.czlefodezyvn.ap-northeast-2.rds.amazonaws.com",
+    host: "skkudb.cfnhyw2dkvaj.us-east-2.rds.amazonaws.com",
     password: `${pw}`,
     database: "mydb",
     waitForConnections: true,
