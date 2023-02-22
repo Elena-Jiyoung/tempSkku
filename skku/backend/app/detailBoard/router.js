@@ -3,10 +3,11 @@ var detail = require("./detail_model");
 
 //CREATE
 function writeNewPost (req, res) {
+    const boardtype = req.body.boardtype;
     const title = req.body.title;
     const userId = req.body.userId; //관리자 로그인 이메일(아이디) 인풋으로 받아오기
     const content = req.body.content;
-    detail.writeNewPost(title, userId, content, (err, result)=> {
+    detail.writeNewPost(boardtype, title, userId, content, (err, result)=> {
         if (err) {
             console.log(err);
             res.json({ errMsg: "Error: Failed to create a new post"});
@@ -20,14 +21,14 @@ function writeNewPost (req, res) {
 
 //READ 첫 페이지
 
-function getReportPage(req, res) {
-    console.log("1")
-    detail.getfirstPage((error, result1) => {
+function getBoardPage(req, res) {
+    const boardtype = req.body.boardtype;
+    detail.getfirstPage(boardtype, (error, result1) => {
         if (error) {
             console.log(error);
             res.json({ errMsg: "Error: Failed to get the first page"})
         } else {
-            detail.getTotalPageNum((err, result2) => {
+            detail.getTotalPageNum(boardtype, (err, result2) => {
 
                 if (err) {
                     console.log(err);
@@ -48,8 +49,9 @@ function getReportPage(req, res) {
 //READ 특정 페이지
 
 function getBoardDataPagenum(req, res) {
+    const boardtype = req.body.boardtype;
     const pageNum = req.body.pageNum
-    detail.getBoardPageNum(pageNum, (err, result)=>{
+    detail.getBoardPageNum(boardtype, pageNum, (err, result)=>{
         if (err) {
             console.log(err);
             res.json({ errMsg: "Error: Failed to get the page"})
@@ -62,10 +64,11 @@ function getBoardDataPagenum(req, res) {
 //UPDATE 글 수정하기
 
 function updateBoardData(req, res) {
+    const boardtype = req.body.boardtype;
     const title = req.body.title;
     const content = req.body.content;
     const id = req.body.id;
-    detail.updatepost(title, content, id, (err, result) => {
+    detail.updatepost(boardtype, title, content, id, (err, result) => {
     if (err) {
         console.log(err);
         res.json({ errMsg: "Error: Failed to update the post"})
@@ -78,8 +81,9 @@ function updateBoardData(req, res) {
 
 //DELETE 글 삭제하기
 function deleteBoardData(req, res) {
+    const boardtype = req.body.boardtype;
     const id = req.body.id;
-    detail.deletepost(id, (err, result) => {
+    detail.deletepost(boardtype, id, (err, result) => {
         if (err) {
             console.log(err);
             res.json({ errMsg: "Error: Failed to delete the post"})
@@ -91,8 +95,9 @@ function deleteBoardData(req, res) {
 
 //READ 게시글 디테일 페이지
 function getDetailPage(req, res){
+    const boardtype = req.body.boardtype;
     const id = req.body.id;
-    detail.detailData(id, (err, result) => {
+    detail.detailData(boardtype, id, (err, result) => {
         if (err) {
             console.log(err);
             res.json({ errMsg: "Error: Failed to get the details"})
@@ -106,10 +111,10 @@ function getDetailPage(req, res){
 
 
 
-router.post("/createreport", writeNewPost);
-router.get("/report", getReportPage);
-router.post("/report_with_pagenum", getBoardDataPagenum);
-router.post("/updatereport", updateBoardData)
-router.post("/deletereport", deleteBoardData)
-router.post("/reportdetails", getDetailPage)
+router.post("/createPost", writeNewPost);
+router.get("/boardpage", getBoardPage);
+router.post("/board_with_pagenum", getBoardDataPagenum);
+router.post("/updatePost", updateBoardData)
+router.post("/deletePost", deleteBoardData)
+router.post("/postDetails", getDetailPage)
 module.exports = router;

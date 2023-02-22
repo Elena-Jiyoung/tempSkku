@@ -6,3 +6,5 @@ __pycache__/
 /app/fileUpload
 /app/fileUpload/router
 /app/fileDownload
+/app/aws/awsconfig.json
+/app/aws/awsKeys.js

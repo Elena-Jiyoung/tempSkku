@@ -4,12 +4,13 @@ var router = require("express").Router();
 
 function getBook(req, res) {
     //console.log("Test")
-    fileBoard.getBook((err,result) => {
+    const boardtype = req.body.boardtype;
+    fileBoard.getBook(boardtype, (err,result) => {
         if (err){
             console.log(err);
         }
         else {
-            fileBoard.getPageNum((err,result2) => {
+            fileBoard.getPageNum(boardtype, (err,result2) => {
                 if (err) {
                     console.log (err);
                 }
@@ -25,9 +26,10 @@ function getBook(req, res) {
 
 
 function getBookPage(req, res) { 
-    pageNum = req.body.pageNum;
+    const boardtype = req.body.boardtype;
+    const pageNum = req.body.pageNum;
     console.log(pageNum);
-    fileBoard.getBookPage( pageNum, (err,result) => {
+    fileBoard.getBookPage( boardtype, pageNum, (err,result) => {
         if (err){
             console.log(err);
         }
@@ -39,45 +41,58 @@ function getBookPage(req, res) {
 }
 
 function createBook(req, res) { 
+    const boardtype = req.body.boardtype;
     const title = req.body.title;
     const filename = req.body.filename;
     const file = req.body.file;
-    fileBoard.insertBook( title, filename, file, (err,result) => {
+    const userId = req.body.userId;
+    fileBoard.insertBook( boardtype, title, filename, file, userId, (err,result) => {
         if(err){
             console.log(err);
             res.json({ errMsg: "Error: Failed on creating book" });
+        } else{
+            console.log("New Data Inserted");
         }
     });
 }
 
 function updateBook(req, res) {
+    const boardtype = req.body.boardtype;
     const bookId = req.body.id;
     const title = req.body.title;
     const filename = req.body.filename;
     const file = req.body.file;
-    fileBoard.updateBook( bookId, title, filename, file, (err, result) => {
+    fileBoard.updateBook( boardtype, bookId, title, filename, file, (err, result) => {
         if(err){
             console.log(err);
             res.json({ errMsg: "Error: Failed on updating book" });
+        } else{
+            console.log("Data Updated");
         }
     });
 }
 
 function deleteBook(req, res) {
+    const boardtype = req.body.boardtype;
     const bookId = req.body.id;
-    fileBoard.deleteBook(bookId, (err, result) => {
+    fileBoard.deleteBook(boardtype, bookId, (err, result) => {
         if(err){
             console.log(err);
             res.json({ errMsg: "Error: Failed on deleting book" });
+        }else{
+            console.log("Data Deleted");
         }
     });
-}
 
+}
+ 
+/*
 //다운로드는 db에 파일을 저장하는 형식이 아니라 주소를 저장하는 형식을 사용했습니다
 //skku\backend 경로 안에 저장된 파일을 다운로드 합니다. 
 function getBookFile(req, res) {
+    const boardtype = req.body.boardtype;
     const bookId = req.body.id;
-    fileBoard.getBookFile( bookId , (err, result) => {
+    fileBoard.getBookFile( boardtype, bookId , (err, result) => {
         if(err) {
             console.log(err)
             res.json({ errMsg: "Error: Failed on downloading book" });
@@ -87,13 +102,12 @@ function getBookFile(req, res) {
     });
 }
 
-
+*/
 
 router.get("/book",getBook);
 router.post("/book_with_pagenum",getBookPage);
 router.post("/createbook", createBook);
 router.post("/updatebook", updateBook);
 router.post("/deletebook", deleteBook);
-router.post("/book_id", getBookFile);
 
 module.exports = router;
